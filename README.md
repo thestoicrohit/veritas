@@ -1,4 +1,4 @@
-# veritas
+
 # VERITAS - AI-Assisted Public Works Risk Intelligence
 
 VERITAS is an AI-assisted public works risk intelligence and monitoring platform built for **MPLADS** (Member of Parliament Local Area Development Scheme). It automatically ingests and evaluates public works datasets to flag cost deviations, physical-financial mismatches, geospatial duplicate overlaps, contract-splitting procurement patterns, and visual satellite change anomalies, surfacing them to auditors.
