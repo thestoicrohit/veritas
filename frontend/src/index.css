@@ -1,0 +1,69 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --color-navy: #0C1F36;
+  --color-deep-navy: #071525;
+  --color-off-white: #F7F8FA;
+  --color-teal-brand: #0F8E84;
+  --color-light-teal: #EBF7F5;
+  --color-amber-brand: #D99024;
+  --color-light-amber: #FFF5E5;
+  --color-orange-brand: #EB8425;
+  --color-red-brand: #C23A34;
+  --color-light-red: #FAEDEC;
+  --color-green-brand: #35875A;
+  --color-gray-brand: #63707A;
+  
+  --color-dark-card: #10263E;
+}
+
+/* Base custom styles to support Leaflet and standard government dashboard elements */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--color-off-white);
+  color: #1A202C;
+}
+
+/* Custom scrollbars for clean institutional UI */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E0;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A0AEC0;
+}
+
+/* Leaflet container height adjustment */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  background-color: #e0e5eb;
+  border-radius: 4px;
+}
+
+/* Stagger animation class helper */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.4s ease-out forwards;
+}
