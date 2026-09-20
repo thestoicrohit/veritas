@@ -8,16 +8,16 @@ import {
   FileImage, 
   ShieldAlert, 
   FileText, 
-  Settings, 
-  Menu, 
   ChevronLeft,
   ChevronRight,
-  TrendingUp
+  TrendingUp,
+  Sparkles
 } from 'lucide-react';
 
-export default function Sidebar({ activePage, setActivePage, isCollapsed, setIsCollapsed, isDarkMode }) {
+export default function Sidebar({ activePage, setActivePage, isCollapsed, setIsCollapsed, isDarkMode, onOpenHowItWorks }) {
   const menuItems = [
     { id: 'command-centre', name: 'Command Centre', icon: LayoutDashboard },
+    { id: 'how-it-works', name: 'How It Works & Demo', icon: Sparkles, isAction: true },
     { id: 'projects', name: 'Projects List', icon: FileSpreadsheet },
     { id: 'risk-analytics', name: 'Risk Analytics', icon: BarChart3 },
     { id: 'financial-intel', name: 'Financial Intelligence', icon: TrendingUp },
@@ -27,6 +27,7 @@ export default function Sidebar({ activePage, setActivePage, isCollapsed, setIsC
     { id: 'alerts', name: 'Alerts Centre', icon: ShieldAlert },
     { id: 'reports', name: 'Reports Briefs', icon: FileText }
   ];
+
 
   return (
     <aside 
@@ -66,12 +67,20 @@ export default function Sidebar({ activePage, setActivePage, isCollapsed, setIsC
           return (
             <button
               key={item.id}
-              onClick={() => setActivePage(item.id)}
+              onClick={() => {
+                if (item.isAction && onOpenHowItWorks) {
+                  onOpenHowItWorks();
+                } else {
+                  setActivePage(item.id);
+                }
+              }}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-all group relative
-                ${isActive 
-                  ? 'bg-teal-brand text-white shadow-sm' 
-                  : 'text-slate-300 hover:text-white hover:bg-white/5'
+                ${item.isAction ? 'text-amber-300 font-bold hover:bg-amber-500/10 border border-amber-500/30' :
+                  isActive 
+                    ? 'bg-teal-brand text-white shadow-sm' 
+                    : 'text-slate-300 hover:text-white hover:bg-white/5'
                 }`}
+
               title={isCollapsed ? item.name : ''}
             >
               <Icon size={18} className={isActive ? 'text-white' : 'text-slate-400 group-hover:text-white'} />

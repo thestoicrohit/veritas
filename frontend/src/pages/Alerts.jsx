@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { ShieldAlert, Bell, CheckCircle, Clock, Trash2, UserPlus, Eye } from 'lucide-react';
+import { Bell, CheckCircle, Clock, Trash2, UserPlus, Eye } from 'lucide-react';
 import { fetchAlerts } from '../services/api';
 
 export default function Alerts({ isDarkMode, onViewProject }) {
   const [alerts, setAlerts] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadAlerts() {
@@ -13,8 +12,6 @@ export default function Alerts({ isDarkMode, onViewProject }) {
         setAlerts(data);
       } catch (err) {
         console.error(err);
-      } finally {
-        setLoading(false);
       }
     }
     loadAlerts();
@@ -39,7 +36,7 @@ export default function Alerts({ isDarkMode, onViewProject }) {
         }`}
       >
         <div className="space-y-1">
-          <h2 className="text-base font-bold tracking-tight text-navy">
+          <h2 className={`text-base font-bold tracking-tight ${isDarkMode ? 'text-slate-100' : 'text-navy'}`}>
             Anomaly Alerts Centre
           </h2>
           <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-gray-brand'} max-w-2xl leading-relaxed`}>
@@ -72,7 +69,7 @@ export default function Alerts({ isDarkMode, onViewProject }) {
           alerts.map((alt) => (
             <div 
               key={alt.id}
-              className="p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:bg-gray-50/50 transition-colors"
+              className={`p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 transition-colors ${isDarkMode ? 'hover:bg-[#152F4C]' : 'hover:bg-gray-50/50'}`}
             >
               <div className="flex items-start gap-3">
                 <span className={`w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0
@@ -84,7 +81,7 @@ export default function Alerts({ isDarkMode, onViewProject }) {
                 
                 <div className="space-y-1">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-mono text-xs font-bold text-navy">{alt.project_id}</span>
+                    <span className={`font-mono text-xs font-bold ${isDarkMode ? 'text-slate-200' : 'text-navy'}`}>{alt.project_id}</span>
                     <span className={`text-[9px] font-bold px-1.5 py-0.2 rounded uppercase font-mono text-white
                       ${alt.type === 'VERY HIGH' ? 'bg-red-brand' :
                         alt.type === 'HIGH' ? 'bg-orange-brand' :
@@ -98,7 +95,7 @@ export default function Alerts({ isDarkMode, onViewProject }) {
                       <span>{alt.timestamp}</span>
                     </span>
                   </div>
-                  <p className="text-sm font-semibold text-gray-800 leading-snug">{alt.message}</p>
+                  <p className={`text-sm font-semibold leading-snug ${isDarkMode ? 'text-slate-200' : 'text-gray-800'}`}>{alt.message}</p>
                 </div>
               </div>
 

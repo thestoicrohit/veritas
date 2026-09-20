@@ -69,3 +69,9 @@ export async function generateAuditBrief(projectId) {
   if (!res.ok) throw new Error('Failed to generate audit report brief');
   return res.json();
 }
+
+export async function fetchMpladsOverview() {
+  const res = await fetch(`${API_BASE}/mplads/overview`);
+  if (!res.ok) throw new Error('Failed to fetch MPLADS overview data');
+  return res.json();
+}

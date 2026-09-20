@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Play, PlayCircle, Eye, Info, Sparkles, X, ChevronUp, ChevronDown } from 'lucide-react';
+import { PlayCircle, Sparkles, X } from 'lucide-react';
 
-export default function DemoPanel({ onTriggerScenario }) {
+export default function DemoPanel({ onTriggerScenario, onOpenHowItWorks }) {
   const [isOpen, setIsOpen] = useState(true);
 
   const scenarios = [
@@ -66,10 +66,21 @@ export default function DemoPanel({ onTriggerScenario }) {
       </div>
 
       {/* Scenarios List */}
-      <div className="p-3 space-y-2 max-h-[300px] overflow-y-auto bg-slate-50/50">
+      <div className="p-3 space-y-2 max-h-[320px] overflow-y-auto bg-slate-50/50">
+        {onOpenHowItWorks && (
+          <button
+            onClick={onOpenHowItWorks}
+            className="w-full bg-teal-brand hover:bg-teal-brand/90 text-white font-extrabold text-xs p-2 rounded flex items-center justify-center gap-1.5 shadow-xs cursor-pointer transition-all hover:scale-102"
+          >
+            <Sparkles size={14} className="text-amber-300 animate-pulse" />
+            <span>Launch 4-Step Guided Tour</span>
+          </button>
+        )}
+
         <p className="text-[10px] text-gray-brand italic font-semibold">
           Click any scenario to execute the 3-minute hackathon demo sequence:
         </p>
+
         
         {scenarios.map((scen) => (
           <button

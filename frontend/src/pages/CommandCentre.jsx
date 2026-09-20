@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
-import { Filter, RotateCcw, AlertTriangle, ShieldCheck, ShieldAlert, ArrowRight } from 'lucide-react';
+import { Filter, RotateCcw, ArrowRight, Database, Sparkles } from 'lucide-react';
 import KPICard from '../components/KPICard';
 import IndiaMap from '../components/IndiaMap';
 import ProjectTable from '../components/ProjectTable';
 import { fetchAnalytics, fetchProjects } from '../services/api';
 
-export default function CommandCentre({ isDarkMode, onViewProject, filterState, setFilterState }) {
+export default function CommandCentre({ isDarkMode, onViewProject, filterState, setFilterState, onOpenHowItWorks }) {
   const [projects, setProjects] = useState([]);
   const [analytics, setAnalytics] = useState(null);
-  const [loading, setLoading] = useState(true);
   
   // Sorting state
   const [sortField, setSortField] = useState('overall_risk_score');
@@ -18,7 +17,6 @@ export default function CommandCentre({ isDarkMode, onViewProject, filterState, 
   // Load data based on filters
   useEffect(() => {
     async function loadData() {
-      setLoading(true);
       try {
         const projData = await fetchProjects(filterState);
         const analData = await fetchAnalytics(filterState);
@@ -26,8 +24,6 @@ export default function CommandCentre({ isDarkMode, onViewProject, filterState, 
         setAnalytics(analData);
       } catch (err) {
         console.error(err);
-      } finally {
-        setLoading(false);
       }
     }
     loadData();
@@ -47,7 +43,9 @@ export default function CommandCentre({ isDarkMode, onViewProject, filterState, 
       category: '',
       risk_level: '',
       search: '',
-      reason: ''
+      reason: '',
+      sabha: '',
+      selectedCoords: null
     });
   };
 
@@ -91,7 +89,54 @@ export default function CommandCentre({ isDarkMode, onViewProject, filterState, 
   return (
     <div className="space-y-6">
       
+      {/* Official e-SAKSHI Portal Status Banner */}
+      <div className={`p-4 rounded-lg border shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 select-none
+        ${isDarkMode 
+          ? 'bg-[#0E1E32] border-slate-800 text-slate-100' 
+          : 'bg-[#F4F9F8] border-teal-200 text-navy'
+        }`}
+      >
+        <div className="flex items-center gap-3">
+          <div className="p-2.5 bg-teal-brand text-white rounded-lg shadow-sm">
+            <Database size={20} />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-extrabold text-teal-brand tracking-wider uppercase font-mono">e-SAKSHI LIVE SYNC</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+              <span className="text-[10px] text-gray-brand font-semibold">http://mplads.gov.in/</span>
+            </div>
+            <h2 className="text-sm font-extrabold tracking-tight mt-0.5">
+              Ministry of Statistics & Programme Implementation (MoSPI) Audit Engine
+            </h2>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 flex-wrap">
+          <div className="hidden lg:flex items-center gap-1.5 text-[10px] font-bold font-mono">
+            <span className="bg-white border px-2 py-1 rounded shadow-2xs">1. SYNC</span>
+            <span className="text-teal-brand">→</span>
+            <span className="bg-white border px-2 py-1 rounded shadow-2xs">2. AI RISK</span>
+            <span className="text-teal-brand">→</span>
+            <span className="bg-white border px-2 py-1 rounded shadow-2xs">3. GIS MAP</span>
+            <span className="text-teal-brand">→</span>
+            <span className="bg-white border px-2 py-1 rounded shadow-2xs">4. MoSPI BRIEF</span>
+          </div>
+
+          {onOpenHowItWorks && (
+            <button
+              onClick={onOpenHowItWorks}
+              className="bg-navy hover:bg-navy/90 text-white text-xs font-bold py-1.5 px-3 rounded flex items-center gap-1.5 cursor-pointer transition-all hover:scale-105"
+            >
+              <Sparkles size={13} className="text-amber-300" />
+              <span>How It Works Demo</span>
+            </button>
+          )}
+        </div>
+      </div>
+
       {/* Filters Panel */}
+
       <div className={`p-4 rounded-lg border shadow-sm flex flex-wrap gap-4 items-center justify-between
         ${isDarkMode 
           ? 'bg-[#10263E] border-slate-800 text-slate-100' 

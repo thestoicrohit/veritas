@@ -11,22 +11,51 @@ import {
   Cell
 } from 'recharts';
 import { fetchAnalytics } from '../services/api';
-import { AlertCircle, HelpCircle, ArrowRight } from 'lucide-react';
+import { AlertCircle, ArrowRight } from 'lucide-react';
+
+const CustomTooltip = ({ active, payload, isDarkMode }) => {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload;
+    return (
+      <div className={`p-3 rounded border text-xs shadow-md font-sans max-w-[240px]
+        ${isDarkMode ? 'bg-[#0F223A] border-slate-800 text-slate-100' : 'bg-white border-gray-300 text-navy'}`}
+      >
+        <div className="flex justify-between items-center mb-1 pb-1 border-b">
+          <span className="font-bold font-mono">{data.project_id}</span>
+          <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold text-white
+            ${data.risk_level === 'VERY HIGH RISK' ? 'bg-red-brand' :
+              data.risk_level === 'HIGH RISK' ? 'bg-orange-brand' :
+              data.risk_level === 'MEDIUM RISK' ? 'bg-amber-brand' :
+              data.risk_level === 'LOW RISK' ? 'bg-teal-brand' : 'bg-green-brand'}`}>
+            Risk: {data.risk_score}
+          </span>
+        </div>
+        <p className="font-semibold mb-1 truncate">{data.title}</p>
+        <p className="text-[10px] text-gray-500">District: {data.city}</p>
+        <div className="mt-2 grid grid-cols-2 gap-1 text-[10px] uppercase font-bold text-gray-700">
+          <div>Util: {data.expenditure_utilization}%</div>
+          <div>Prog: {data.physical_progress}%</div>
+        </div>
+        <div className="mt-2 pt-1 border-t text-[9px] text-teal-brand font-bold text-right flex items-center justify-end gap-1 cursor-pointer">
+          <span>Click to inspect details</span>
+          <ArrowRight size={10} />
+        </div>
+      </div>
+    );
+  }
+  return null;
+};
 
 export default function RiskAnalytics({ isDarkMode, onViewProject, filterState }) {
   const [plotData, setPlotData] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
-      setLoading(true);
       try {
         const res = await fetchAnalytics(filterState);
         setPlotData(res.scatter_plot || []);
       } catch (err) {
         console.error(err);
-      } finally {
-        setLoading(false);
       }
     }
     loadData();
@@ -37,39 +66,6 @@ export default function RiskAnalytics({ isDarkMode, onViewProject, filterState }
     if (data && data.project_id) {
       onViewProject(data.project_id);
     }
-  };
-
-  const CustomTooltip = ({ active, payload }) => {
-    if (active && payload && payload.length) {
-      const data = payload[0].payload;
-      return (
-        <div className={`p-3 rounded border text-xs shadow-md font-sans max-w-[240px]
-          ${isDarkMode ? 'bg-[#0F223A] border-slate-800 text-slate-100' : 'bg-white border-gray-300 text-navy'}`}
-        >
-          <div className="flex justify-between items-center mb-1 pb-1 border-b">
-            <span className="font-bold font-mono">{data.project_id}</span>
-            <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold text-white
-              ${data.risk_level === 'VERY HIGH RISK' ? 'bg-red-brand' :
-                data.risk_level === 'HIGH RISK' ? 'bg-orange-brand' :
-                data.risk_level === 'MEDIUM RISK' ? 'bg-amber-brand' :
-                data.risk_level === 'LOW RISK' ? 'bg-teal-brand' : 'bg-green-brand'}`}>
-              Risk: {data.risk_score}
-            </span>
-          </div>
-          <p className="font-semibold mb-1 truncate">{data.title}</p>
-          <p className="text-[10px] text-gray-500">District: {data.city}</p>
-          <div className="mt-2 grid grid-cols-2 gap-1 text-[10px] uppercase font-bold text-gray-700">
-            <div>Util: {data.expenditure_utilization}%</div>
-            <div>Prog: {data.physical_progress}%</div>
-          </div>
-          <div className="mt-2 pt-1 border-t text-[9px] text-teal-brand font-bold text-right flex items-center justify-end gap-1 cursor-pointer">
-            <span>Click to inspect details</span>
-            <ArrowRight size={10} />
-          </div>
-        </div>
-      );
-    }
-    return null;
   };
 
   return (
@@ -83,7 +79,7 @@ export default function RiskAnalytics({ isDarkMode, onViewProject, filterState }
         }`}
       >
         <div className="space-y-1">
-          <h2 className="text-base font-bold tracking-tight text-navy">
+          <h2 className={`text-base font-bold tracking-tight ${isDarkMode ? 'text-slate-100' : 'text-navy'}`}>
             Expenditure vs Physical Progress Analytics
           </h2>
           <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-gray-brand'} max-w-2xl leading-relaxed`}>
@@ -108,9 +104,10 @@ export default function RiskAnalytics({ isDarkMode, onViewProject, filterState }
         }`}
       >
         <div className="mb-4">
-          <h3 className="text-xs font-extrabold uppercase tracking-tight text-navy">
+          <h3 className={`text-xs font-extrabold uppercase tracking-tight ${isDarkMode ? 'text-slate-100' : 'text-navy'}`}>
             Milestone Dispersion Chart
           </h3>
+
           <p className="text-[10px] text-gray-brand">
             Interactive view • Click on any node dot to view complete audit logs and details
           </p>
@@ -143,7 +140,7 @@ export default function RiskAnalytics({ isDarkMode, onViewProject, filterState }
                 stroke="#63707A"
               />
               
-              <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: '3 3', stroke: '#63707A' }} />
+              <Tooltip content={<CustomTooltip isDarkMode={isDarkMode} />} cursor={{ strokeDasharray: '3 3', stroke: '#63707A' }} />
               
               {/* Healthy diagonal reference line */}
               <ReferenceLine 

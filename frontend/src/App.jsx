@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import DemoPanel from './components/DemoPanel';
 import ProjectModal from './components/ProjectModal';
+import HowItWorksModal from './components/HowItWorksModal';
 
 // Pages
 import CommandCentre from './pages/CommandCentre';
@@ -22,6 +23,7 @@ export default function App() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [isHowItWorksOpen, setIsHowItWorksOpen] = useState(false);
   
   // Shared filter state for projects and analytics
   const [filterState, setFilterState] = useState({
@@ -122,6 +124,7 @@ export default function App() {
             onViewProject={handleViewProject}
             filterState={filterState}
             setFilterState={setFilterState}
+            onOpenHowItWorks={() => setIsHowItWorksOpen(true)}
           />
         );
       case 'projects':
@@ -131,6 +134,7 @@ export default function App() {
             onViewProject={handleViewProject}
             filterState={filterState}
             setFilterState={setFilterState}
+            onOpenHowItWorks={() => setIsHowItWorksOpen(true)}
           />
         );
       case 'risk-analytics':
@@ -188,6 +192,7 @@ export default function App() {
             onViewProject={handleViewProject}
             filterState={filterState}
             setFilterState={setFilterState}
+            onOpenHowItWorks={() => setIsHowItWorksOpen(true)}
           />
         );
     }
@@ -203,6 +208,7 @@ export default function App() {
         isCollapsed={isCollapsed} 
         setIsCollapsed={setIsCollapsed}
         isDarkMode={isDarkMode}
+        onOpenHowItWorks={() => setIsHowItWorksOpen(true)}
       />
 
       {/* Main content frame */}
@@ -212,6 +218,7 @@ export default function App() {
         <Header 
           isDarkMode={isDarkMode} 
           setIsDarkMode={setIsDarkMode} 
+          onOpenHowItWorks={() => setIsHowItWorksOpen(true)}
         />
 
         {/* Scrollable page body */}
@@ -224,7 +231,18 @@ export default function App() {
       </div>
 
       {/* Floating interactive demo scenarios console */}
-      <DemoPanel onTriggerScenario={handleTriggerScenario} />
+      <DemoPanel 
+        onTriggerScenario={handleTriggerScenario} 
+        onOpenHowItWorks={() => setIsHowItWorksOpen(true)}
+      />
+
+      {/* How It Works & Live Demo Modal */}
+      <HowItWorksModal 
+        isOpen={isHowItWorksOpen}
+        onClose={() => setIsHowItWorksOpen(false)}
+        isDarkMode={isDarkMode}
+        onTriggerScenario={handleTriggerScenario}
+      />
 
       {/* Central project details inspection modal */}
       {selectedProject && (

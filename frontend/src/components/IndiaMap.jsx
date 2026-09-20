@@ -140,7 +140,10 @@ export default function IndiaMap({ projects, isDarkMode, onViewProject, selected
                       {proj.risk_reasons}
                     </span>
                     <button
-                      onClick={() => onViewProject && onViewProject(proj.project_id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (onViewProject) onViewProject(proj.project_id);
+                      }}
                       className="bg-navy hover:bg-navy/85 text-white font-bold text-[9px] px-2 py-1 rounded transition-colors"
                     >
                       View Details

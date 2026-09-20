@@ -75,6 +75,7 @@ export default function ProjectTable({ projects, isDarkMode, onViewProject, onSo
   };
 
   const renderSortHeader = (label, field) => {
+    const isSorted = sortField === field;
     return (
       <th 
         onClick={() => onSort(field)}
@@ -82,11 +83,15 @@ export default function ProjectTable({ projects, isDarkMode, onViewProject, onSo
       >
         <div className="flex items-center gap-1">
           <span>{label}</span>
-          <ArrowUpDown size={12} className="text-gray-brand" />
+          <ArrowUpDown size={12} className={isSorted ? 'text-teal-brand font-bold' : 'text-gray-brand'} />
+          {isSorted && (
+            <span className="text-[9px] text-teal-brand font-mono">{sortOrder === 'asc' ? '↑' : '↓'}</span>
+          )}
         </div>
       </th>
     );
   };
+
 
   return (
     <div className={`border rounded-lg shadow-sm overflow-hidden
@@ -130,7 +135,7 @@ export default function ProjectTable({ projects, isDarkMode, onViewProject, onSo
                   key={proj.project_id} 
                   className={`transition-colors hover:bg-gray-50/50 ${isDarkMode ? 'hover:bg-[#152F4C]' : 'hover:bg-slate-50/50'}`}
                 >
-                  <td className="px-4 py-3 font-mono font-bold text-navy truncate">{proj.project_id}</td>
+                  <td className={`px-4 py-3 font-mono font-bold truncate ${isDarkMode ? 'text-slate-200' : 'text-navy'}`}>{proj.project_id}</td>
                   <td className="px-4 py-3 font-semibold truncate max-w-[200px]" title={proj.project_title}>
                     {proj.project_title}
                   </td>

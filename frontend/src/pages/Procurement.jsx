@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layers, AlertTriangle, ShieldCheck, Info, User, Calendar, FileText } from 'lucide-react';
+import { AlertTriangle, Info, User, Calendar, FileText } from 'lucide-react';
 
 export default function Procurement({ isDarkMode, onViewProject }) {
   const contractorName = "Demo Contractor A (Synthetic)";
@@ -43,7 +43,7 @@ export default function Procurement({ isDarkMode, onViewProject }) {
         }`}
       >
         <div className="space-y-1">
-          <h2 className="text-base font-bold tracking-tight text-navy">
+          <h2 className={`text-base font-bold tracking-tight ${isDarkMode ? 'text-slate-100' : 'text-navy'}`}>
             Procurement Pattern Analysis
           </h2>
           <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-gray-brand'} max-w-2xl leading-relaxed`}>
@@ -115,7 +115,7 @@ export default function Procurement({ isDarkMode, onViewProject }) {
           }`}
         >
           <div>
-            <h3 className="text-xs font-extrabold uppercase tracking-tight text-navy mb-4">
+            <h3 className={`text-xs font-extrabold uppercase tracking-tight ${isDarkMode ? 'text-slate-100' : 'text-navy'} mb-4`}>
               Flagged Contract Splitting Cluster
             </h3>
 
@@ -149,8 +149,9 @@ export default function Procurement({ isDarkMode, onViewProject }) {
                   <div className="text-right flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end border-t sm:border-0 pt-2 sm:pt-0">
                     <div>
                       <span className="text-xs text-slate-500 font-bold block">Sanctioned</span>
-                      <span className="text-sm font-extrabold text-navy leading-none">{work.amount}</span>
+                      <span className={`text-sm font-extrabold leading-none ${isDarkMode ? 'text-slate-100' : 'text-navy'}`}>{work.amount}</span>
                     </div>
+
                     <button className="bg-navy text-white text-[10px] font-bold px-3 py-1.5 rounded hover:bg-navy/90 flex items-center gap-1 cursor-pointer">
                       <FileText size={10} />
                       <span>Inspect</span>

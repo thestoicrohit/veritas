@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FileText, Download, Printer, CheckCircle, Info } from 'lucide-react';
+import { FileText, Download, Printer, Info } from 'lucide-react';
 import { fetchProjects, generateAuditBrief } from '../services/api';
 
 export default function Reports({ isDarkMode }) {
@@ -50,7 +50,7 @@ export default function Reports({ isDarkMode }) {
         }`}
       >
         <div className="space-y-1">
-          <h2 className="text-base font-bold tracking-tight text-navy">
+          <h2 className={`text-base font-bold tracking-tight ${isDarkMode ? 'text-slate-100' : 'text-navy'}`}>
             Audit Brief Generator
           </h2>
           <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-gray-brand'} max-w-2xl leading-relaxed`}>
@@ -109,7 +109,8 @@ export default function Reports({ isDarkMode }) {
         >
           {/* Controls */}
           <div className="flex justify-between items-center pb-3 border-b">
-            <span className="text-xs font-extrabold uppercase text-navy">Document Preview</span>
+            <span className={`text-xs font-extrabold uppercase ${isDarkMode ? 'text-slate-100' : 'text-navy'}`}>Document Preview</span>
+
             <div className="flex gap-2">
               <button 
                 onClick={() => window.print()}

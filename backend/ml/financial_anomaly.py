@@ -51,9 +51,9 @@ class FinancialAnomalyDetector:
         score_range = max_score - min_score if max_score != min_score else 1
         
         anomaly_scores = []
-        for i, row in df.iterrows():
+        for idx, (_, row) in enumerate(df.iterrows()):
             # Base Isolation Forest anomaly score
-            raw_if_score = scores[i]
+            raw_if_score = scores[idx]
             if_anomaly = ((max_score - raw_if_score) / score_range) * 80.0 # scale to max 80
             
             # Z-score of cost deviation

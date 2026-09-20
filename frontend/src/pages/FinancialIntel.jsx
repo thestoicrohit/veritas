@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchProjects } from '../services/api';
-import { IndianRupee, AlertOctagon, HelpCircle, ArrowRight, TrendingUp } from 'lucide-react';
+import { AlertOctagon, HelpCircle, ArrowRight, TrendingUp } from 'lucide-react';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function FinancialIntel({ isDarkMode, onViewProject }) {
@@ -38,7 +38,7 @@ export default function FinancialIntel({ isDarkMode, onViewProject }) {
         }`}
       >
         <div className="space-y-1">
-          <h2 className="text-base font-bold tracking-tight text-navy">
+          <h2 className={`text-base font-bold tracking-tight ${isDarkMode ? 'text-slate-100' : 'text-navy'}`}>
             Financial Intelligence & Baseline Benchmarks
           </h2>
           <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-gray-brand'} max-w-2xl leading-relaxed`}>
@@ -82,7 +82,7 @@ export default function FinancialIntel({ isDarkMode, onViewProject }) {
                 <div className="mt-2 flex justify-between items-baseline">
                   <div>
                     <span className="text-xs text-slate-500 font-bold block">Sanctioned:</span>
-                    <span className="text-xl font-extrabold text-navy">₹35.0 Lakhs</span>
+                    <span className={`text-xl font-extrabold ${isDarkMode ? 'text-slate-100' : 'text-navy'}`}>₹35.0 Lakhs</span>
                   </div>
                   <div className="text-right">
                     <span className="text-xs text-slate-500 font-bold block">Dev. Ratio:</span>
@@ -126,9 +126,10 @@ export default function FinancialIntel({ isDarkMode, onViewProject }) {
           }`}
         >
           <div>
-            <h3 className="text-xs font-extrabold uppercase tracking-tight text-navy mb-4">
+            <h3 className={`text-xs font-extrabold uppercase tracking-tight ${isDarkMode ? 'text-slate-100' : 'text-navy'} mb-4`}>
               Top Flagged Projects by Cost (Lakhs) & Financial Risk
             </h3>
+
 
             <div className="h-[260px] w-full relative z-10 select-none">
               <ResponsiveContainer width="100%" height="100%">

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Sun, Moon, Bell, User } from 'lucide-react';
+import { Sun, Moon, Bell, User, Sparkles } from 'lucide-react';
 
-export default function Header({ isDarkMode, setIsDarkMode, notificationsCount = 4 }) {
+export default function Header({ isDarkMode, setIsDarkMode, onOpenHowItWorks, notificationsCount = 4 }) {
   return (
     <header className={`h-16 flex items-center justify-between px-6 border-b select-none
       ${isDarkMode 
@@ -14,16 +14,26 @@ export default function Header({ isDarkMode, setIsDarkMode, notificationsCount =
         <div className="flex items-center gap-3">
           <h2 className="text-lg font-bold tracking-tight">VERITAS COMMAND CENTRE</h2>
           <span className="text-[9px] font-mono font-extrabold bg-red-brand text-white px-2 py-0.5 rounded tracking-wider animate-pulse uppercase">
-            Demo Mode • Synthetic Records
+            e-SAKSHI Sync • Demo Mode
           </span>
         </div>
         <p className={`text-[11px] leading-tight ${isDarkMode ? 'text-slate-400' : 'text-gray-brand'}`}>
-          See the signals. Verify the reality. <span className="mx-1">•</span> <span className="font-semibold text-teal-brand">PS 26102 • MoSPI • Smart Automation</span>
+          mplads.gov.in Intelligence <span className="mx-1">•</span> <span className="font-semibold text-teal-brand">PS 26102 • MoSPI • Smart Automation</span>
         </p>
       </div>
 
       {/* Control Area */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
+        {/* How It Works & Live Demo Button */}
+        <button
+          onClick={onOpenHowItWorks}
+          className="bg-teal-brand hover:bg-teal-brand/90 text-white text-xs font-extrabold px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-1.5 cursor-pointer transition-all hover:scale-105"
+        >
+          <Sparkles size={14} className="text-amber-300 animate-pulse" />
+          <span className="hidden md:inline">HOW IT WORKS & LIVE DEMO</span>
+          <span className="md:hidden">DEMO TOUR</span>
+        </button>
+
         {/* Dark/Light mode switch */}
         <button
           onClick={() => setIsDarkMode(!isDarkMode)}

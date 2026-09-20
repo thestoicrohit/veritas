@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ImageSlider from '../components/ImageSlider';
 import { uploadVisualVerification } from '../services/api';
-import { FileImage, AlertTriangle, ShieldCheck, Upload, RotateCcw } from 'lucide-react';
+import { ShieldCheck, Upload, RotateCcw } from 'lucide-react';
 
 export default function VisualVerification({ isDarkMode }) {
   const [beforeFile, setBeforeFile] = useState(null);
@@ -72,7 +72,7 @@ export default function VisualVerification({ isDarkMode }) {
         }`}
       >
         <div className="space-y-1">
-          <h2 className="text-base font-bold tracking-tight text-navy">
+          <h2 className={`text-base font-bold tracking-tight ${isDarkMode ? 'text-slate-100' : 'text-navy'}`}>
             Visual Evidence Analysis (CV Change Detection)
           </h2>
           <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-gray-brand'} max-w-2xl leading-relaxed`}>
@@ -97,7 +97,7 @@ export default function VisualVerification({ isDarkMode }) {
           }`}
         >
           <div>
-            <h3 className="text-xs font-extrabold uppercase tracking-tight text-navy mb-4">
+            <h3 className={`text-xs font-extrabold uppercase tracking-tight ${isDarkMode ? 'text-slate-100' : 'text-navy'} mb-4`}>
               Image Comparison Slider
             </h3>
             
@@ -120,7 +120,7 @@ export default function VisualVerification({ isDarkMode }) {
             }`}
           >
             <div>
-              <h3 className="text-xs font-extrabold uppercase tracking-tight text-navy mb-1">
+              <h3 className={`text-xs font-extrabold uppercase tracking-tight ${isDarkMode ? 'text-slate-100' : 'text-navy'} mb-1`}>
                 Visual Difference Score
               </h3>
               <span className="text-[10px] text-gray-brand block">CV change estimation percentage</span>
@@ -147,9 +147,10 @@ export default function VisualVerification({ isDarkMode }) {
               : 'bg-white border-gray-200'
             }`}
           >
-            <h3 className="text-xs font-extrabold uppercase tracking-tight text-navy">
+            <h3 className={`text-xs font-extrabold uppercase tracking-tight ${isDarkMode ? 'text-slate-100' : 'text-navy'}`}>
               Upload Custom Verification Photos
             </h3>
+
             
             <div className="grid grid-cols-2 gap-4">
               {/* Before Upload */}

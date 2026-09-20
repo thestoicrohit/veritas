@@ -14,7 +14,7 @@ def haversine_distance(lat1, lon1, lat2, lon2):
     on the earth (specified in decimal degrees) in meters.
     """
     # Convert decimal degrees to radians
-    lat1, lon1, lat2, lon2 = map(math.radians, [lat1, lon1, lat2, lon2])
+    lat1, lon1, lat2, lon2 = map(math.radians, [float(lat1), float(lon1), float(lat2), float(lon2)])
 
     # Haversine formula
     dlon = lon2 - lon1
@@ -221,7 +221,7 @@ def compute_overall_risk(project, all_projects):
             proc_risk * WEIGHT_PROCUREMENT
         )
         
-    overall_score = int(math.clip(overall, 0.0, 100.0) if hasattr(math, "clip") else min(100.0, max(0.0, overall)))
+    overall_score = int(min(100.0, max(0.0, overall)))
     level, recommended = get_risk_level(overall_score)
     
     return overall_score, level, f"{recommended} recommended" if "verification" in recommended.lower() else recommended

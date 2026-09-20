@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
 import L from 'leaflet';
-import { MapPin, Info, ArrowRight, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { Info, ArrowRight, AlertTriangle } from 'lucide-react';
 
 export default function GeoIntelligence({ isDarkMode, onViewProject }) {
   // Coordinates for the Varanasi duplicate cases
@@ -36,9 +36,10 @@ export default function GeoIntelligence({ isDarkMode, onViewProject }) {
         }`}
       >
         <div className="space-y-1">
-          <h2 className="text-base font-bold tracking-tight text-navy">
+          <h2 className={`text-base font-bold tracking-tight ${isDarkMode ? 'text-slate-100' : 'text-navy'}`}>
             Geospatial Duplicate Work Detection
           </h2>
+
           <p className={`text-xs ${isDarkMode ? 'text-slate-400' : 'text-gray-brand'} max-w-2xl leading-relaxed`}>
             The geo intelligence layer checks for spatial overlaps. When multiple projects of a similar category (e.g. Buildings, Road works) are sanctioned within 50 meters of each other, it flags them as a potential anomaly.
           </p>

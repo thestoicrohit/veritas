@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { 
   X, 
   MapPin, 
-  IndianRupee, 
-  Calendar, 
-  Briefcase, 
   AlertOctagon,
   FileText,
   Map,
@@ -107,10 +104,15 @@ export default function ProjectModal({ project, isDarkMode, onClose, onNavigate 
           }`}
       >
         {/* Modal Header */}
-        <div className="px-6 py-4 border-b border-gray-200/50 flex justify-between items-start bg-gray-50/50">
+        <div className={`px-6 py-4 border-b flex justify-between items-start
+          ${isDarkMode ? 'bg-[#0B1A2C] border-slate-800' : 'bg-gray-50/50 border-gray-200/50'}`}
+        >
           <div>
-            <div className="flex items-center gap-2 mb-1">
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
               <span className="font-mono text-xs font-bold text-gray-brand uppercase tracking-wider">{project.project_id}</span>
+              <span className="font-mono text-[10px] font-bold bg-teal-500/10 text-teal-brand px-1.5 py-0.5 rounded uppercase border border-teal-500/20">
+                {project.e_sakshi_work_id || 'e-SAKSHI Work ID'}
+              </span>
               <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider font-mono
                 ${project.risk_level === 'VERY HIGH RISK' ? 'bg-red-brand text-white' :
                   project.risk_level === 'HIGH RISK' ? 'bg-orange-brand text-white' :
@@ -119,15 +121,22 @@ export default function ProjectModal({ project, isDarkMode, onClose, onNavigate 
                 {project.risk_level}
               </span>
             </div>
-            <h2 className="text-xl font-bold leading-tight text-navy">{project.project_title}</h2>
-            <div className="flex items-center gap-1.5 text-xs text-gray-brand mt-1">
-              <MapPin size={12} className="text-teal-brand" />
-              <span>{project.city}, {project.state} (MP: {project.mp_name})</span>
+            <h2 className={`text-xl font-bold leading-tight ${isDarkMode ? 'text-slate-100' : 'text-navy'}`}>{project.project_title}</h2>
+            <div className="flex items-center gap-3 text-xs text-gray-brand mt-1 flex-wrap font-medium">
+              <div className="flex items-center gap-1">
+                <MapPin size={12} className="text-teal-brand" />
+                <span>{project.city}, {project.state} (MP: {project.mp_name})</span>
+              </div>
+              <span>•</span>
+              <div>Agency: <strong className={isDarkMode ? 'text-slate-200' : 'text-navy'}>{project.implementing_agency || 'Public Works Dept (PWD)'}</strong></div>
+              <span>•</span>
+              <div>UC: <strong className="text-amber-brand">{project.uc_status || 'UC Pending'}</strong></div>
             </div>
           </div>
+
           <button 
             onClick={onClose}
-            className="p-1 rounded-md text-gray-500 hover:text-navy hover:bg-gray-200"
+            className={`p-1 rounded-md transition-colors ${isDarkMode ? 'text-slate-400 hover:text-white hover:bg-slate-800' : 'text-gray-500 hover:text-navy hover:bg-gray-200'}`}
           >
             <X size={20} />
           </button>
@@ -140,7 +149,9 @@ export default function ProjectModal({ project, isDarkMode, onClose, onNavigate 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
             
             {/* Risk Gauge */}
-            <div className="flex flex-col items-center justify-center p-4 bg-gray-50/50 rounded-lg border border-gray-200/50 text-center h-full">
+            <div className={`flex flex-col items-center justify-center p-4 rounded-lg border text-center h-full
+              ${isDarkMode ? 'bg-[#12253B] border-slate-800' : 'bg-gray-50/50 border-gray-200/50'}`}
+            >
               <AnimatedRiskRing score={project.overall_risk_score} riskLevel={project.risk_level} isDarkMode={isDarkMode} />
               <div className="mt-2">
                 <span className="text-xs font-bold uppercase tracking-wide block">Risk Priority Score</span>
@@ -149,18 +160,20 @@ export default function ProjectModal({ project, isDarkMode, onClose, onNavigate 
             </div>
 
             {/* Core Financial Indicators */}
-            <div className="p-4 bg-gray-50/50 rounded-lg border border-gray-200/50 grid grid-cols-2 gap-4 h-full">
+            <div className={`p-4 rounded-lg border grid grid-cols-2 gap-4 h-full
+              ${isDarkMode ? 'bg-[#12253B] border-slate-800' : 'bg-gray-50/50 border-gray-200/50'}`}
+            >
               <div>
                 <span className="text-[10px] uppercase font-bold text-gray-brand block">Sanctioned</span>
-                <div className="text-lg font-extrabold text-navy mt-1">₹{sancLakhs} Lakhs</div>
+                <div className={`text-lg font-extrabold mt-1 ${isDarkMode ? 'text-slate-100' : 'text-navy'}`}>₹{sancLakhs} Lakhs</div>
               </div>
               <div>
                 <span className="text-[10px] uppercase font-bold text-gray-brand block">Expenditure</span>
-                <div className="text-lg font-extrabold text-navy mt-1">₹{spentLakhs} Lakhs</div>
+                <div className={`text-lg font-extrabold mt-1 ${isDarkMode ? 'text-slate-100' : 'text-navy'}`}>₹{spentLakhs} Lakhs</div>
               </div>
               <div>
                 <span className="text-[10px] uppercase font-bold text-gray-brand block">Utilization</span>
-                <div className="text-lg font-extrabold text-navy mt-1">{utilPercent}%</div>
+                <div className={`text-lg font-extrabold mt-1 ${isDarkMode ? 'text-slate-100' : 'text-navy'}`}>{utilPercent}%</div>
               </div>
               <div>
                 <span className="text-[10px] uppercase font-bold text-gray-brand block">Physical Progress</span>
@@ -203,12 +216,12 @@ export default function ProjectModal({ project, isDarkMode, onClose, onNavigate 
           </div>
 
           {/* Explainable Risk Reasons Details */}
-          <div className="p-4 bg-amber-50/30 border border-amber-200/50 rounded-lg">
+          <div className={`p-4 rounded-lg border ${isDarkMode ? 'bg-amber-950/20 border-amber-500/30' : 'bg-amber-50/30 border-amber-200/50'}`}>
             <h3 className="text-xs font-extrabold text-amber-brand uppercase tracking-wider mb-2 flex items-center gap-1.5">
               <AlertTriangle size={14} />
               <span>Assessment Breakdown (Explainable AI Signals)</span>
             </h3>
-            <div className="text-xs space-y-1.5 text-navy font-medium leading-relaxed">
+            <div className={`text-xs space-y-1.5 font-medium leading-relaxed ${isDarkMode ? 'text-slate-200' : 'text-navy'}`}>
               <p><strong>Financial Analysis:</strong> {project.details_why_flagged?.financial}</p>
               <p><strong>Progress Analysis:</strong> {project.details_why_flagged?.progress}</p>
               <p><strong>Spatial Analytics:</strong> {project.details_why_flagged?.geo}</p>
@@ -218,15 +231,15 @@ export default function ProjectModal({ project, isDarkMode, onClose, onNavigate 
 
           {/* Risk Score Composition Matrix */}
           <div>
-            <h3 className="text-xs font-extrabold uppercase tracking-wider text-navy mb-3">
+            <h3 className={`text-xs font-extrabold uppercase tracking-wider mb-3 ${isDarkMode ? 'text-slate-200' : 'text-navy'}`}>
               Risk Component Matrix
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {signals.map((sig, idx) => (
-                <div key={idx} className="p-3 bg-gray-50/50 rounded border border-gray-200/40 text-xs">
+                <div key={idx} className={`p-3 rounded border text-xs ${isDarkMode ? 'bg-[#12253B] border-slate-800' : 'bg-gray-50/50 border-gray-200/40'}`}>
                   <div className="flex justify-between items-center mb-1">
                     <span className="font-bold">{sig.label}</span>
-                    <span className="font-mono font-bold text-navy">
+                    <span className={`font-mono font-bold ${isDarkMode ? 'text-slate-200' : 'text-navy'}`}>
                       {sig.pending ? 'PENDING' : `${sig.score} / ${sig.max}`}
                     </span>
                   </div>
@@ -253,9 +266,9 @@ export default function ProjectModal({ project, isDarkMode, onClose, onNavigate 
 
           {/* Audit Report Preview Block */}
           {report && (
-            <div className="p-4 bg-slate-50 border border-slate-300 rounded-lg animate-fade-in">
+            <div className={`p-4 rounded-lg border animate-fade-in ${isDarkMode ? 'bg-[#12253B] border-slate-700' : 'bg-slate-50 border-slate-300'}`}>
               <div className="flex justify-between items-center mb-2 pb-2 border-b border-slate-300">
-                <span className="text-xs font-extrabold uppercase text-navy">Audit Brief Generated</span>
+                <span className={`text-xs font-extrabold uppercase ${isDarkMode ? 'text-slate-100' : 'text-navy'}`}>Audit Brief Generated</span>
                 <button
                   onClick={() => window.print()}
                   className="bg-navy hover:bg-navy/90 text-white text-[10px] font-bold py-1 px-2.5 rounded cursor-pointer transition-all"
@@ -265,7 +278,7 @@ export default function ProjectModal({ project, isDarkMode, onClose, onNavigate 
               </div>
               {/* Inject generated html */}
               <div 
-                className="overflow-y-auto max-h-[300px] border border-gray-200 rounded p-2 bg-white"
+                className="overflow-y-auto max-h-[300px] border border-gray-200 rounded p-2 bg-white text-navy"
                 dangerouslySetInnerHTML={{ __html: report.html }}
               />
             </div>
@@ -274,7 +287,10 @@ export default function ProjectModal({ project, isDarkMode, onClose, onNavigate 
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-3 border-t border-gray-200/50 flex justify-between items-center bg-gray-50/50">
+        <div className={`px-6 py-3 border-t flex justify-between items-center
+          ${isDarkMode ? 'bg-[#0B1A2C] border-slate-800' : 'bg-gray-50/50 border-gray-200/50'}`}
+        >
+
           <div className="text-[10px] text-gray-500 italic">
             Ground-truth verification remaining authority.
           </div>

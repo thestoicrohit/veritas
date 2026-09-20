@@ -10,6 +10,7 @@ from backend.data.mock_database import (
     get_project_by_id,
     get_kpis,
     get_risk_distribution,
+    get_mplads_overview,
     PROJECTS
 )
 from backend.services.risk_engine import compute_overall_risk, haversine_distance
@@ -32,9 +33,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SAMPLE_IMAGES_DIR = os.path.join(BASE_DIR, "cv", "sample_images")
+
 # Mount the static files directory to serve sample images
-os.makedirs("d:/0.1sih26/sih/cv/sample_images", exist_ok=True)
-app.mount("/cv/sample_images", StaticFiles(directory="d:/0.1sih26/sih/cv/sample_images"), name="sample_images")
+os.makedirs(SAMPLE_IMAGES_DIR, exist_ok=True)
+app.mount("/cv/sample_images", StaticFiles(directory=SAMPLE_IMAGES_DIR), name="sample_images")
 
 # Pydantic schemas
 class ReportRequest(BaseModel):
@@ -44,6 +48,10 @@ class ReportRequest(BaseModel):
 @app.get("/")
 def read_root():
     return {"name": "VERITAS API", "status": "operational", "disclaimer": "DEMO MODE • SYNTHETIC DATA"}
+
+@app.get("/api/mplads/overview")
+def read_mplads_overview():
+    return get_mplads_overview()
 
 @app.get("/api/projects")
 def list_projects(
@@ -213,8 +221,8 @@ async def verify_image(
     """
     Compares uploaded before/after photos and returns the difference metrics.
     """
-    before_temp = "d:/0.1sih26/sih/cv/sample_images/temp_before.png"
-    after_temp = "d:/0.1sih26/sih/cv/sample_images/temp_after.png"
+    before_temp = os.path.join(SAMPLE_IMAGES_DIR, "temp_before.png")
+    after_temp = os.path.join(SAMPLE_IMAGES_DIR, "temp_after.png")
     
     try:
         # Save files temporarily
